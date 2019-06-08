@@ -9,6 +9,7 @@ import {
   ScrollView,
   TouchableHighlight,
   Alert,
+  TouchableOpacity
 } from 'react-native';
 
 const notDoneIcon = require('./assets/circle.png')
@@ -19,7 +20,13 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [],
+      list: [{
+        text: 'nesto',
+        done: false,
+      }, {
+        text: 'nesto drugo',
+        done: true,
+      }],
       input: '',
     };
     this.addItem = this.addItem.bind(this);
@@ -32,6 +39,19 @@ export default class App extends React.Component {
       }],
       input: '',
     });
+  }
+  toggleItem(index) {
+    this.setState({
+      list: this.state.list.map((item, i) => {
+          if (i !== index) {
+            return item;
+          }
+          return {
+            ...item,
+            done: !item.done,
+          };
+      })
+    })
   }
   render() {
     const {
@@ -50,10 +70,14 @@ export default class App extends React.Component {
             key={index}
             style={styles.item}
           >
-            <Image
-              source={item.done ? doneIcon : notDoneIcon}
-              style={styles.icon}
-            />
+            <TouchableOpacity
+              onPress={() => this.toggleItem(index)}
+            >
+              <Image
+                source={item.done ? doneIcon : notDoneIcon}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
             <Text
               style={[
                 styles.itemText,
