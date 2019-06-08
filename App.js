@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  KeyboardAvoidingView
+} from 'react-native';
 
 const notDoneIcon = require('./assets/circle.png')
 const doneIcon = require('./assets/check-symbol.png')
@@ -17,7 +24,10 @@ export default function App() {
     done: true,
   }];
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={styles.container}
+    >
       <View style={styles.list}>
         <Text style={styles.title}>
           My ToDo List
@@ -46,14 +56,13 @@ export default function App() {
           <Text>Save</Text>
         </View>
       </View>
-    </View>
-  );
+    </KeyboardAvoidingView>);
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingTop: 30,
+    flex: 1,
   },
   list: {
     flex: 1,
