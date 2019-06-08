@@ -12,51 +12,53 @@ const notDoneIcon = require('./assets/circle.png')
 const doneIcon = require('./assets/check-symbol.png')
 
 
-export default function App() {
-  const list = [{
-    text: 'zvati dalibora',
-    done: false,
-  }, {
-    text: 'doci na predavanje',
-    done: false,
-  }, {
-    text: 'nauciti react',
-    done: true,
-  }];
-  return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      style={styles.container}
-    >
-      <View style={styles.list}>
-        <Text style={styles.title}>
-          My ToDo List
-        </Text>
-        {list.map((item, index) => (<View
-          key={index}
-          style={styles.item}
-        >
-          <Image
-            source={item.done ? doneIcon : notDoneIcon}
-            style={styles.icon}
-          />
-          <Text
-            style={[
-              styles.itemText,
-              item.done ? styles.textDone : null
-            ]}
-          >
-            {item.text}
+export default class App extends React.Component {
+  render() {
+    const list = [{
+      text: 'zvati dalibora',
+      done: false,
+    }, {
+      text: 'doci na predavanje',
+      done: false,
+    }, {
+      text: 'nauciti react',
+      done: true,
+    }];
+    return (
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={styles.container}
+      >
+        <View style={styles.list}>
+          <Text style={styles.title}>
+            My ToDo List
           </Text>
-        </View>))}
-      </View>
-      <View style={styles.inputWrap}>
-        <TextInput placeholder="New Task" style={styles.input} />
-        <View style={styles.button}>
-          <Text>Save</Text>
+          {list.map((item, index) => (<View
+            key={index}
+            style={styles.item}
+          >
+            <Image
+              source={item.done ? doneIcon : notDoneIcon}
+              style={styles.icon}
+            />
+            <Text
+              style={[
+                styles.itemText,
+                item.done ? styles.textDone : null
+              ]}
+            >
+              {item.text}
+            </Text>
+          </View>))}
         </View>
-      </View>
-    </KeyboardAvoidingView>);
+        <View style={styles.inputWrap}>
+          <TextInput placeholder="New Task" style={styles.input} />
+          <View style={styles.button}>
+            <Text>Save</Text>
+          </View>
+        </View>
+      </KeyboardAvoidingView>);
+  }
 }
 
 const styles = StyleSheet.create({
