@@ -1,6 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
 
+const notDoneIcon = require('./assets/circle.png')
+const doneIcon = require('./assets/check-symbol.png')
+
+
 export default function App() {
   const list = [{
     text: 'zvati dalibora',
@@ -10,7 +14,7 @@ export default function App() {
     done: false,
   }, {
     text: 'nauciti react',
-    done: false,
+    done: true,
   }];
   return (
     <View style={styles.container}>
@@ -23,10 +27,17 @@ export default function App() {
           style={styles.item}
         >
           <Image
-            source={require('./assets/circle.png')}
+            source={item.done ? doneIcon : notDoneIcon}
             style={styles.icon}
           />
-          <Text>{item.text}</Text>
+          <Text
+            style={[
+              styles.itemText,
+              item.done ? styles.textDone : null
+            ]}
+          >
+            {item.text}
+          </Text>
         </View>))}
       </View>
       <View style={styles.inputWrap}>
@@ -75,5 +86,8 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     margin: 5,
-  }
+  },
+  textDone: {
+    textDecorationLine: 'line-through',
+  },
 });
