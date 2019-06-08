@@ -22,6 +22,16 @@ export default class App extends React.Component {
       list: [],
       input: '',
     };
+    this.addItem = this.addItem.bind(this);
+  }
+  addItem() {
+    this.setState({
+      list: [...this.state.list, {
+        text: this.state.input,
+        done: false,
+      }],
+      input: '',
+    });
   }
   render() {
     const {
@@ -65,16 +75,7 @@ export default class App extends React.Component {
           />
           <TouchableHighlight
             style={styles.button}
-            onPress={() => {
-
-              this.setState({
-                list: [...list, {
-                  text: this.state.input,
-                  done: false,
-                }],
-                input: '',
-              })
-            }}
+            onPress={this.addItem}
           >
             <Text>Save</Text>
           </TouchableHighlight>
