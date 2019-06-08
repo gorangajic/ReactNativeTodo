@@ -38,13 +38,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [{
-        text: 'nesto',
-        done: false,
-      }, {
-        text: 'nesto drugo',
-        done: true,
-      }],
+      list: [],
       input: '',
     };
     this.addItem = this.addItem.bind(this);
