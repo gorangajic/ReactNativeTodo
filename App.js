@@ -7,6 +7,8 @@ import {
   Image,
   KeyboardAvoidingView,
   ScrollView,
+  TouchableHighlight,
+  Alert,
 } from 'react-native';
 
 const notDoneIcon = require('./assets/circle.png')
@@ -61,9 +63,14 @@ export default class App extends React.Component {
               this.setState({ input: newText });
             }}
           />
-          <View style={styles.button}>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={() => {
+              Alert.alert('press');
+            }}
+          >
             <Text>Save</Text>
-          </View>
+          </TouchableHighlight>
         </View>
       </KeyboardAvoidingView>);
   }
