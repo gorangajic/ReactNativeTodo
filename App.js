@@ -15,6 +15,9 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.list}>
+        <Text style={styles.title}>
+          My ToDo List
+        </Text>
         {list.map((item, index) => (<View key={index}>
           <Text>{item.text}</Text>
         </View>))}
@@ -47,5 +50,11 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 20,
+  },
+  title: {
+    fontSize: 30,
+    paddingLeft: 40,
+    paddingTop: 15,
+    marginBottom: 20,
   }
 });
