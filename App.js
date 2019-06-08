@@ -16,6 +16,23 @@ const notDoneIcon = require('./assets/circle.png')
 const doneIcon = require('./assets/check-symbol.png')
 
 
+// za domaci brisanje todo-a koji su zavrseni
+// this.setState({
+//   list: this.state.list.filter(item => {
+//     return !item.done;
+//   })
+// });
+
+// this.setState({
+//   list: this.state.list.filter(item => !item.done)
+// });
+
+// Za domaci isto
+// AsyncStorage da cuva podatke todo liste
+
+// ko hoce moze i da implementira swipe to delete
+// https://www.npmjs.com/package/react-native-swipeout
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
