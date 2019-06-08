@@ -123,6 +123,7 @@ export default class App extends React.Component {
             onChangeText={(newText) => {
               this.setState({ input: newText });
             }}
+            onSubmitEditing={this.addItem}
           />
           <TouchableHighlight
             style={styles.button}
