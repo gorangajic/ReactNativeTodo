@@ -14,35 +14,16 @@ const doneIcon = require('./assets/check-symbol.png')
 
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: [],
+    };
+  }
   render() {
-    const list = [{
-      text: 'zvati dalibora',
-      done: false,
-    }, {
-      text: 'doci na predavanje',
-      done: false,
-    }, {
-      text: 'nauciti react',
-      done: true,
-    }, {
-      text: 'zvati dalibora',
-      done: false,
-    }, {
-      text: 'doci na predavanje',
-      done: false,
-    }, {
-      text: 'nauciti react',
-      done: true,
-    }, {
-      text: 'zvati dalibora',
-      done: false,
-    }, {
-      text: 'doci na predavanje',
-      done: false,
-    }, {
-      text: 'nauciti react',
-      done: true,
-    }];
+    const {
+      list,
+    } = this.state;
     return (
       <KeyboardAvoidingView
         behavior="padding"
