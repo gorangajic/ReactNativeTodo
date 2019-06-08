@@ -66,7 +66,14 @@ export default class App extends React.Component {
           <TouchableHighlight
             style={styles.button}
             onPress={() => {
-              Alert.alert('press');
+
+              this.setState({
+                list: [...list, {
+                  text: this.state.input,
+                  done: false,
+                }],
+                input: '',
+              })
             }}
           >
             <Text>Save</Text>
