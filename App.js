@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image } from 'react-native';
 
 export default function App() {
   const list = [{
@@ -18,7 +18,14 @@ export default function App() {
         <Text style={styles.title}>
           My ToDo List
         </Text>
-        {list.map((item, index) => (<View key={index}>
+        {list.map((item, index) => (<View
+          key={index}
+          style={styles.item}
+        >
+          <Image
+            source={require('./assets/circle.png')}
+            style={styles.icon}
+          />
           <Text>{item.text}</Text>
         </View>))}
       </View>
@@ -52,8 +59,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    paddingLeft: 40,
+    paddingHorizontal: 40,
     paddingTop: 15,
     marginBottom: 20,
+  },
+  item: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderColor: '#dadada',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    margin: 5,
   }
 });
