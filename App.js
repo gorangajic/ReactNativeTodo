@@ -18,6 +18,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       list: [],
+      input: '',
     };
   }
   render() {
@@ -52,7 +53,14 @@ export default class App extends React.Component {
           </View>))}
         </ScrollView>
         <View style={styles.inputWrap}>
-          <TextInput placeholder="New Task" style={styles.input} />
+          <TextInput
+            placeholder="New Task"
+            style={styles.input}
+            value={this.state.input}
+            onChangeText={(newText) => {
+              this.setState({ input: newText });
+            }}
+          />
           <View style={styles.button}>
             <Text>Save</Text>
           </View>
