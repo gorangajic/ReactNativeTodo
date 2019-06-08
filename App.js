@@ -14,6 +14,7 @@ import {
 
 const notDoneIcon = require('./assets/circle.png')
 const doneIcon = require('./assets/check-symbol.png')
+const deleteIcon = require('./assets/trash.png')
 
 
 // za domaci brisanje todo-a koji su zavrseni
@@ -70,6 +71,13 @@ export default class App extends React.Component {
       })
     })
   }
+  deleteItem(index) {
+    this.setState({
+      list: this.state.list.filter((item, i) => {
+          return i !== index;
+      })
+    })
+  }
   render() {
     const {
       list,
@@ -95,14 +103,22 @@ export default class App extends React.Component {
                 style={styles.icon}
               />
             </TouchableOpacity>
-            <Text
-              style={[
-                styles.itemText,
-                item.done ? styles.textDone : null
-              ]}
-            >
-              {item.text}
-            </Text>
+            <View style={{ flex: 1}}>
+              <Text
+                style={[
+                  styles.itemText,
+                  item.done ? styles.textDone : null
+                ]}
+              >
+                {item.text}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => this.deleteItem(index)}>
+              <Image
+                source={deleteIcon}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
           </View>))}
         </ScrollView>
         <View style={styles.inputWrap}>
