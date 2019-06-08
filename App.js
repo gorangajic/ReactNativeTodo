@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    backgroundColor: 'red',
   },
   inputWrap: {
     flexDirection: 'row',
