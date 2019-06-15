@@ -15,12 +15,19 @@ const deleteIcon = require('./assets/trash.png')
 export default class TodoItem extends React.Component {
   constructor(props) {
     super(props);
-    this.fadeIn = new Animated.Value(0);
+    this.animateHeight = new Animated.Value(0);
   }
   componentDidMount() {
-    Animated.timing(this.fadeIn, {
+    Animated.timing(this.animateHeight, {
       toValue: 50,
     }).start();
+  }
+  delete() {
+    Animated.timing(this.animateHeight, {
+      toValue: 0,
+    }).start(() => {
+      this.props.onDeleteItem();
+    })
   }
   render() {
     const {
@@ -30,7 +37,7 @@ export default class TodoItem extends React.Component {
     } = this.props;
     return (<Animated.View
         style={[styles.item, {
-          height: this.fadeIn,
+          height: this.animateHeight,
         }]}
       >
         <TouchableOpacity
@@ -51,7 +58,7 @@ export default class TodoItem extends React.Component {
             {item.text}
           </Text>
         </View>
-        <TouchableOpacity onPress={onDeleteItem}>
+        <TouchableOpacity onPress={() => this.delete()}>
           <Image
             source={deleteIcon}
             style={styles.icon}
