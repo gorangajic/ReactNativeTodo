@@ -13,6 +13,8 @@ import {
   Keyboard,
   Animated,
 } from 'react-native';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 
 import TodoItem from './TodoItem';
 export default class App extends React.Component {
@@ -51,6 +53,16 @@ export default class App extends React.Component {
     });
   }
   componentDidMount() {
+    Permissions.askAsync(Permissions.NOTIFICATIONS).then((permission) => {
+      if (permission) {
+        Notifications.presentLocalNotificationAsync({
+          title: 'Hello',
+          body: 'World',
+        }).then((a) => {
+          console.log(a);
+        });
+      }
+    })
     Keyboard.addListener('keyboardWillShow', this.showKeyboardListener);
     Keyboard.addListener('keyboardWillHide', this.hideKeyboardListener);
   }
