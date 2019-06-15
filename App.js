@@ -9,8 +9,11 @@ import {
   ScrollView,
   TouchableHighlight,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  Keyboard,
+  Animated,
 } from 'react-native';
+
 import TodoItem from './TodoItem';
 export default class App extends React.Component {
   constructor(props) {
@@ -21,8 +24,39 @@ export default class App extends React.Component {
         done: false,
       }],
       input: '',
+      focus: false,
     };
     this.addItem = this.addItem.bind(this);
+
+    this.animateOpacity = new Animated.Value(0);
+
+    this.showKeyboardListener = this.showKeyboardListener.bind(this);
+    this.hideKeyboardListener = this.hideKeyboardListener.bind(this);
+  }
+  showKeyboardListener() {
+    this.setState({
+      focus: true,
+    });
+    Animated.timing(this.animateOpacity, {
+      toValue: 1,
+    }).start();
+  }
+  hideKeyboardListener() {
+    Animated.timing(this.animateOpacity, {
+      toValue: 0,
+    }).start(() => {
+      this.setState({
+        focus: false,
+      });
+    });
+  }
+  componentDidMount() {
+    Keyboard.addListener('keyboardWillShow', this.showKeyboardListener);
+    Keyboard.addListener('keyboardWillHide', this.hideKeyboardListener);
+  }
+  componentWillUnmount() {
+    Keyboard.removeListener('keyboardWillShow', this.showKeyboardListener)
+    Keyboard.removeListener('keyboardWillHide', this.hideKeyboardListener)
   }
   addItem() {
     this.setState({
@@ -62,7 +96,7 @@ export default class App extends React.Component {
         behavior="padding"
         style={styles.container}
       >
-        <ScrollView style={styles.list}>
+        <ScrollView style={styles.list} contentContainerStyle={{ flex: 1 }}>
           <Text style={styles.title}>
             My ToDo List
           </Text>
@@ -72,6 +106,15 @@ export default class App extends React.Component {
             onToggleItem={() => this.toggleItem(index)}
             onDeleteItem={() => this.deleteItem(index)}
           />))}
+          {this.state.focus ? <Animated.View style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            opacity: this.animateOpacity,
+          }}/> : null}
         </ScrollView>
         <View style={styles.inputWrap}>
           <TextInput
