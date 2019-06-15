@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Animated,
+  PanResponder,
 } from 'react-native';
 
 const notDoneIcon = require('./assets/circle.png')
@@ -16,6 +17,25 @@ export default class TodoItem extends React.Component {
   constructor(props) {
     super(props);
     this.animateHeight = new Animated.Value(0);
+
+    this.translateX = new Animated.Value(0);
+
+    this.panResponder = PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: (e, gestureState) => {
+        this.translateX.setValue(gestureState.dx);
+      },
+      onPanResponderRelease: (e, gestureState) => {
+        if (gestureState.dx > 65) {
+          this.delete();
+        } else {
+          Animated.spring(this.translateX, {
+            toValue: 0,
+          }).start();
+        }
+      },
+      onPanResponderTerminationRequest: () => false,
+    });
   }
   componentDidMount() {
     Animated.timing(this.animateHeight, {
@@ -27,17 +47,30 @@ export default class TodoItem extends React.Component {
       toValue: 0,
     }).start(() => {
       this.props.onDeleteItem();
-    })
+    });
   }
   render() {
     const {
       item,
       onToggleItem,
-      onDeleteItem,
     } = this.props;
-    return (<Animated.View
+
+    return (<View style={styles.itemWrap}>
+      <View style={styles.bgDeleteWrap}>
+        <Text style={styles.bgDelete}>DELETE</Text>
+      </View>
+      <Animated.View
+        {...this.panResponder.panHandlers}
         style={[styles.item, {
           height: this.animateHeight,
+        }, {
+          transform: [{
+            translateX: this.translateX.interpolate({
+              inputRange: [0, 70],
+              outputRange: [0, 70],
+              extrapolate: 'clamp',
+            }),
+          }]
         }]}
       >
         <TouchableOpacity
@@ -64,20 +97,24 @@ export default class TodoItem extends React.Component {
             style={styles.icon}
           />
         </TouchableOpacity>
-      </Animated.View>);
+      </Animated.View>
+    </View>);
   }
 }
 
 const styles = StyleSheet.create({
+  itemWrap: {
+    borderBottomWidth: 1,
+    borderColor: '#dadada',
+  },
   item: {
     paddingHorizontal: 20,
     paddingVertical: 0,
     height: 0,
-    borderBottomWidth: 1,
-    borderColor: '#dadada',
     flexDirection: 'row',
     alignItems: 'center',
     overflow: 'hidden',
+    backgroundColor: 'white',
   },
   icon: {
     width: 30,
@@ -86,5 +123,18 @@ const styles = StyleSheet.create({
   },
   textDone: {
     textDecorationLine: 'line-through',
+  },
+  bgDeleteWrap: {
+    position: 'absolute',
+    backgroundColor: 'red',
+    alignContent: 'center',
+    justifyContent: 'center',
+    top: 0,
+    bottom: 0,
+    width: 70,
+  },
+  bgDelete: {
+    color: 'white',
+    paddingHorizontal: 5,
   },
 });
