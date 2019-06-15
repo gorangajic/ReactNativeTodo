@@ -4,23 +4,34 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Animated,
 } from 'react-native';
 
 const notDoneIcon = require('./assets/circle.png')
 const doneIcon = require('./assets/check-symbol.png')
 const deleteIcon = require('./assets/trash.png')
 
-
 export default class TodoItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.fadeIn = new Animated.Value(0);
+  }
+  componentDidMount() {
+    Animated.timing(this.fadeIn, {
+      toValue: 50,
+    }).start();
+  }
   render() {
     const {
       item,
       onToggleItem,
       onDeleteItem,
     } = this.props;
-    return (<View
-        style={styles.item}
+    return (<Animated.View
+        style={[styles.item, {
+          height: this.fadeIn,
+        }]}
       >
         <TouchableOpacity
           onPress={onToggleItem}
@@ -46,18 +57,20 @@ export default class TodoItem extends React.Component {
             style={styles.icon}
           />
         </TouchableOpacity>
-      </View>);
+      </Animated.View>);
   }
 }
 
 const styles = StyleSheet.create({
   item: {
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 0,
+    height: 0,
     borderBottomWidth: 1,
     borderColor: '#dadada',
     flexDirection: 'row',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   icon: {
     width: 30,
