@@ -11,34 +11,15 @@ import {
   Alert,
   TouchableOpacity
 } from 'react-native';
-
-const notDoneIcon = require('./assets/circle.png')
-const doneIcon = require('./assets/check-symbol.png')
-const deleteIcon = require('./assets/trash.png')
-
-
-// za domaci brisanje todo-a koji su zavrseni
-// this.setState({
-//   list: this.state.list.filter(item => {
-//     return !item.done;
-//   })
-// });
-
-// this.setState({
-//   list: this.state.list.filter(item => !item.done)
-// });
-
-// Za domaci isto
-// AsyncStorage da cuva podatke todo liste
-
-// ko hoce moze i da implementira swipe to delete
-// https://www.npmjs.com/package/react-native-swipeout
-
+import TodoItem from './TodoItem';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: [],
+      list: [{
+        text: 'Something',
+        done: false,
+      }],
       input: '',
     };
     this.addItem = this.addItem.bind(this);
@@ -85,35 +66,12 @@ export default class App extends React.Component {
           <Text style={styles.title}>
             My ToDo List
           </Text>
-          {list.map((item, index) => (<View
+          {list.map((item, index) => (<TodoItem
             key={index}
-            style={styles.item}
-          >
-            <TouchableOpacity
-              onPress={() => this.toggleItem(index)}
-            >
-              <Image
-                source={item.done ? doneIcon : notDoneIcon}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <View style={{ flex: 1}}>
-              <Text
-                style={[
-                  styles.itemText,
-                  item.done ? styles.textDone : null
-                ]}
-              >
-                {item.text}
-              </Text>
-            </View>
-            <TouchableOpacity onPress={() => this.deleteItem(index)}>
-              <Image
-                source={deleteIcon}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-          </View>))}
+            item={item}
+            onToggleItem={() => this.toggleItem(index)}
+            onDeleteItem={() => this.deleteItem(index)}
+          />))}
         </ScrollView>
         <View style={styles.inputWrap}>
           <TextInput
